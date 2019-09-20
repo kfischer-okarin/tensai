@@ -1,0 +1,23 @@
+Style/Lambda:
+  Enabled: false
+
+Metrics/LineLength:
+  Max: 136
+
+Metrics/ModuleLength:
+  Exclude:
+    - spec/**/*
+
+Metrics/BlockLength:
+  Exclude:
+    - spec/**/*
+
+Style/BlockDelimiters:
+  Exclude:
+    - spec/**/*
+
+Layout/MultilineArrayLineBreaks:
+  Enabled: True
+
+Style/ClassAndModuleChildren:
+  Enabled: False
