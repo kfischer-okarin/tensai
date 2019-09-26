@@ -24,11 +24,12 @@ module Tensai
       end
 
       #
-      # Percepts produced by recent sensor input.
+      # Retrieve new percepts produced by recent sensor input.
+      # Each percept is only returned once.
       #
       # @return [Enumerable] List of percepts
       #
-      def percepts
+      def retrieve_percepts
         raise NotImplementedError
       end
     end
