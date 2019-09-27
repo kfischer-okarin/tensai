@@ -10,7 +10,7 @@ Metrics/ModuleLength:
 
 Metrics/BlockLength:
   Exclude:
-    - spec/**/*
+    - '**/spec/**/*'
 
 Style/BlockDelimiters:
   Exclude:
