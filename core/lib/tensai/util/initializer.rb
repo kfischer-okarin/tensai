@@ -58,7 +58,17 @@ module Tensai::Util
       attr_reader :args
 
       def signature
-        args.keys.map { |arg| "#{arg}:" }.join(', ')
+        optional = optional_args.keys.map { |arg| "#{arg}: nil" }
+        required = required_args.keys.map { |arg| "#{arg}:" }
+        (optional + required).join(', ')
+      end
+
+      def required_args
+        args.reject { |_, type| type.optional? }.to_h
+      end
+
+      def optional_args
+        args.select { |_, type| type.optional? }.to_h
       end
 
       def check_argument_types_code
