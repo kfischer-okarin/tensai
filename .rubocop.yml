@@ -6,7 +6,7 @@ Metrics/LineLength:
 
 Metrics/ModuleLength:
   Exclude:
-    - spec/**/*
+    - '**/spec/**/*'
 
 Metrics/BlockLength:
   Exclude:
@@ -14,7 +14,7 @@ Metrics/BlockLength:
 
 Style/BlockDelimiters:
   Exclude:
-    - spec/**/*
+    - '**/spec/**/*'
 
 Layout/MultilineArrayLineBreaks:
   Enabled: True

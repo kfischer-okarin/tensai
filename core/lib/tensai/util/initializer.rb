@@ -11,17 +11,21 @@ module Tensai::Util
       @args = args
     end
 
-    def included(klass)
-      @args.keys.each do |arg|
-        klass.class_eval "attr_reader :#{arg}", __FILE__, __LINE__
-      end
-
+    def included(klass) # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
+      this_class_args = args
       all_args = all_args_for(klass)
 
       klass.instance_eval do
         define_method :__check_argument_type do |argument, value|
-          all_args[argument][value]
+          type = all_args[argument]
+          if type.default? && value.nil?
+            instance_variable_set("@#{argument}".to_sym, type[])
+          else
+            type[value]
+          end
         end
+
+        attr_reader(*this_class_args.keys)
       end
 
       klass.class_eval InitializeMethod.new(all_args).code, __FILE__, __LINE__ + 11
@@ -47,8 +51,8 @@ module Tensai::Util
       def code
         <<~CODE
           def initialize(#{signature})
-            #{check_argument_types_code}
             #{assign_instance_variables_code}
+            #{check_argument_types_code}
           end
         CODE
       end
@@ -64,11 +68,11 @@ module Tensai::Util
       end
 
       def required_args
-        args.reject { |_, type| type.optional? }.to_h
+        args.reject { |_, type| optional_arg?(type) }.to_h
       end
 
       def optional_args
-        args.select { |_, type| type.optional? }.to_h
+        args.select { |_, type| optional_arg?(type) }.to_h
       end
 
       def check_argument_types_code
@@ -77,6 +81,10 @@ module Tensai::Util
 
       def assign_instance_variables_code
         args.keys.map { |arg| "@#{arg} = #{arg}" }.join(';')
+      end
+
+      def optional_arg?(arg_type)
+        arg_type.optional? || arg_type.default?
       end
     end
   end

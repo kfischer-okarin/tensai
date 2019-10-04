@@ -9,11 +9,7 @@ module Tensai
     RSpec.describe Initializer do
       let(:klass) { Class.new }
 
-      context 'Required arguments' do
-        before do
-          klass.include Initializer.new(arg: Types::Strict::String)
-        end
-
+      shared_examples 'common properties' do
         it 'accepts the right argument of the right type' do
           instance = klass.new(arg: 'aa')
           expect(instance).to have_attributes(arg: 'aa')
@@ -27,12 +23,20 @@ module Tensai
           expect { klass.new('aa') }.to raise_error ArgumentError
         end
 
-        it 'requires the argument' do
-          expect { klass.new }.to raise_error ArgumentError
-        end
-
         it 'does not accept arguments of wrong type' do
           expect { klass.new(arg: 4) }.to raise_error Dry::Types::CoercionError
+        end
+      end
+
+      context 'Required arguments' do
+        before do
+          klass.include Initializer.new(arg: Types::Strict::String)
+        end
+
+        include_examples 'common properties'
+
+        it 'requires the argument' do
+          expect { klass.new }.to raise_error ArgumentError
         end
 
         context 'When the parent class already includes an Initializer' do
@@ -81,26 +85,24 @@ module Tensai
           klass.include Initializer.new(arg: Types::Strict::String.optional)
         end
 
-        it 'accepts the right argument of the right type' do
-          instance = klass.new(arg: 'aa')
-          expect(instance).to have_attributes(arg: 'aa')
-        end
-
-        it 'does not accept other arguments' do
-          expect { klass.new(b: 'aa') }.to raise_error ArgumentError
-        end
-
-        it 'does not accept positional arguments' do
-          expect { klass.new('aa') }.to raise_error ArgumentError
-        end
-
-        it 'does not accept arguments of wrong type' do
-          expect { klass.new(arg: 4) }.to raise_error Dry::Types::CoercionError
-        end
+        include_examples 'common properties'
 
         it 'does not require the argument' do
           instance = klass.new
           expect(instance).to have_attributes(arg: nil)
+        end
+      end
+
+      context 'Arguments with default value' do
+        before do
+          klass.include Initializer.new(arg: Types::Strict::String.default { 'b' })
+        end
+
+        include_examples 'common properties'
+
+        it 'does not require the argument' do
+          instance = klass.new
+          expect(instance).to have_attributes(arg: 'b')
         end
       end
     end
