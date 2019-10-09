@@ -6,3 +6,4 @@ module Tensai
 end
 
 require 'tensai/logic/entity'
+require 'tensai/logic/variable'
