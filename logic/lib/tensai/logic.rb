@@ -1,8 +1,12 @@
 # frozen_string_literal: true
 
+require 'tensai/types'
+
 module Tensai
   # Logic and Reasoning
-  module Logic; end
+  module Logic
+    Name = Types::Strict::Symbol
+  end
 end
 
 require 'tensai/logic/entity'

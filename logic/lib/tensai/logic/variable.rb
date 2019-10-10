@@ -12,7 +12,7 @@ module Tensai
     #
     class Variable
       include Util::Initializer.new(
-        name: Tensai::Types::Strict::Symbol,
+        name: Name,
         type: Tensai::Types::Instance(Class).default { Entity }
       )
 

@@ -14,7 +14,7 @@ module Tensai
     #
     class Predicate
       include Util::Initializer.new(
-        name: Tensai::Types::Strict::Symbol,
+        name: Name,
         variables: Tensai::Types::Array.of(Tensai::Types::Instance(Variable))
       )
 
