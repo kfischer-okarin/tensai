@@ -23,7 +23,7 @@ module Tensai
       end
 
       def inspect
-        "#{type.inspect} ?#{name}"
+        "?#{name} - #{type.name.split('::').last}"
       end
     end
   end

@@ -27,6 +27,10 @@ module Tensai
           variables.all? { |v| v.accepts? values[v.name] }
       end
 
+      def inspect
+        "(#{name} #{variables.map(&:inspect).join(' ')})"
+      end
+
       private
 
       def variable_names
