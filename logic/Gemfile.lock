@@ -2,7 +2,7 @@ PATH
   remote: .
   specs:
     tensai-logic (0.1.0)
-      tensai-core (~> 0.1.4)
+      tensai-core (~> 0.1.6)
 
 GEM
   remote: https://rubygems.org/
@@ -32,7 +32,7 @@ GEM
       concurrent-ruby (~> 1.0)
       dry-core (~> 0.2)
       dry-equalizer (~> 0.2)
-    dry-types (1.1.1)
+    dry-types (1.2.0)
       concurrent-ruby (~> 1.0)
       dry-container (~> 0.3)
       dry-core (~> 0.4, >= 0.4.4)
@@ -107,7 +107,7 @@ GEM
       rubocop (>= 0.68.1)
     ruby-progressbar (1.10.1)
     shellany (0.0.1)
-    tensai-core (0.1.4)
+    tensai-core (0.1.6)
       dry-types (~> 1.1)
     thor (0.20.3)
     thread_safe (0.3.6)

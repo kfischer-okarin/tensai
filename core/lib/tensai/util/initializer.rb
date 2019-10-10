@@ -4,6 +4,9 @@ require 'tensai/types'
 
 module Tensai::Util
   # @private
+  #
+  # Prepend to classes to insert boilerplate constructor, dry-types typecheck and getters
+  #
   class Initializer < Module
     attr_reader :args
 
@@ -14,6 +17,7 @@ module Tensai::Util
     def included(klass) # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
       this_class_args = args
       all_args = all_args_for(klass)
+      has_parent_initializers = parent_initializers(klass).length > 1
 
       klass.instance_eval do
         define_method :__check_argument_type do |argument, value|
@@ -26,6 +30,8 @@ module Tensai::Util
         end
 
         attr_reader(*this_class_args.keys)
+
+        alias_method :__original_initialize, :initialize unless has_parent_initializers
       end
 
       klass.class_eval InitializeMethod.new(all_args).code, __FILE__, __LINE__ + 11
@@ -34,10 +40,12 @@ module Tensai::Util
     private
 
     def all_args_for(klass)
-      parent_initializers = klass.ancestors.select { |a| a.is_a? Initializer }
+      parent_initializers(klass).map(&:args)
+                                .reduce(args) { |result, parent_args| parent_args.merge result }
+    end
 
-      parent_initializers.map(&:args)
-                         .reduce(args) { |result, parent_args| parent_args.merge result }
+    def parent_initializers(klass)
+      klass.ancestors.select { |a| a.is_a? Initializer }
     end
 
     #
@@ -53,6 +61,7 @@ module Tensai::Util
           def initialize(#{signature})
             #{assign_instance_variables_code}
             #{check_argument_types_code}
+            __original_initialize
           end
         CODE
       end
