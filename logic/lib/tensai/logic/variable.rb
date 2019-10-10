@@ -17,6 +17,8 @@ module Tensai
       )
 
       def accepts?(value)
+        return value.type <= type if value.is_a? Variable
+
         value.is_a? type
       end
 

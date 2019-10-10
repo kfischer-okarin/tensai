@@ -19,10 +19,18 @@ module Tensai
         end
 
         context 'with specified type' do
-          let(:variable) { Variable.new(name: :x, type: Integer) }
+          let(:variable) { Variable.new(name: :x, type: Numeric) }
 
           it 'accepts values of the specified type' do
             expect(variable.accepts?(2)).to eq true
+          end
+
+          it 'accepts variables of same type' do
+            expect(variable.accepts?(Variable.new(name: :y, type: Numeric))).to eq true
+          end
+
+          it 'accepts variables of subtypes' do
+            expect(variable.accepts?(Variable.new(name: :y, type: Integer))).to eq true
           end
         end
       end
