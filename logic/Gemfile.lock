@@ -2,6 +2,7 @@ PATH
   remote: .
   specs:
     tensai-logic (0.1.1)
+      dry-inflector
       tensai-core (~> 0.1.7)
 
 GEM
