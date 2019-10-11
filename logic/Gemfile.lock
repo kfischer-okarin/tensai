@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    tensai-logic (0.1.1)
+    tensai-logic (0.1.2)
       dry-inflector
       tensai-core (~> 0.1.7)
 
