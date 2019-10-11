@@ -10,5 +10,7 @@ module Tensai
 end
 
 require 'tensai/logic/entity'
+require 'tensai/logic/formula'
+require 'tensai/logic/formulas'
 require 'tensai/logic/predicate'
 require 'tensai/logic/variable'

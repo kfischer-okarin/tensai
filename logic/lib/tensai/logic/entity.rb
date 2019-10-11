@@ -11,6 +11,10 @@ module Tensai
       include Util::Initializer.new(
         name: Name
       )
+
+      def inspect
+        "#{self.class.to_s.split('::').last}(#{name})"
+      end
     end
   end
 end
